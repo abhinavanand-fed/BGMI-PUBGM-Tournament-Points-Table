@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Points Table</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+        .header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #4A90E2;
+            margin: 0;
+        }
+        table {
+            width: 90%;
+            max-width: 1000px;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #4A90E2;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        td {
+            font-size: 1rem;
+            color: #333;
+        }
+        .header h1::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: #4A90E2;
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Points Table</h1>
+    </div>
+    <table id="pointsTable">
+        <thead>
+            <tr>
+                <th>Team Name</th>
+                <th>Finishes</th>
+                <th>Placement</th>
+                <th>Placement Points</th>
+                <th>Total Points</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <script>
+        async function fetchPointsData() {
+            const response = await fetch('Web-App-Url');
+            const data = await response.json();
+
+            data.sort((a, b) => b[4] - a[4]);
+
+            const tableBody = document.querySelector('#pointsTable tbody');
+            tableBody.innerHTML = '';
+
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                row.forEach(cell => {
+                    const td = document.createElement('td');
+                    td.textContent = cell;
+                    tr.appendChild(td);
+                });
+                tableBody.appendChild(tr);
+            });
+        }
+
+        window.onload = fetchPointsData;
+    </script>
+</body>
+</html>
